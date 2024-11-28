@@ -5,6 +5,7 @@
 #include <string.h>
 
 
+
 #define SIZE 256
 
 void input_filename(char *fileName, char *prompt){
