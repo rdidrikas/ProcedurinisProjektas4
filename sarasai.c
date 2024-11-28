@@ -8,7 +8,7 @@ typedef struct {
     int *elements;
 } MyStruct;
 
-void input_filename(char *fileName, char *prompt) {
+void input_filename(char *fileName, char *prompt){
 
     printf("Enter %s's file name with the data (.txt format): ", prompt);
 
@@ -19,13 +19,13 @@ void input_filename(char *fileName, char *prompt) {
 
 }
 
-void inputData(MyStruct *s) {
+void inputData(MyStruct *s, int *size){
 
     char *fileNameInput = malloc(SIZE * sizeof(char));
     input_filename(fileNameInput, "input");
     
     // Error mem allocation
-    if (!fileNameInput) {
+    if (!fileNameInput){
         printf("Memory allocation failed...");
         free(fileNameInput);
         return;
@@ -38,22 +38,34 @@ void inputData(MyStruct *s) {
         input_data(s);
     }
 
+    while(!feof(inputFile)){
+        int temp;
+        if(fscanf(inputFile, "%d", &temp) != 1){
+            printf("Invalid input\n");
+            return -1;
+        }
+        *size++;
+        s->elements = realloc(s->elements, *size * sizeof(int));
+        s->elements[*size - 1] = temp;
+    }
+
 }
 
-void initialize(MyStruct *s) {
+void initialize(MyStruct *s){
 
     s->elements = malloc(0 * sizeof(int));
 
 }
 
-void proccessChoice(int choice, MyStruct *s) {
+void proccessChoice(int choice, MyStruct *s, int *size){
     switch(choice){
         case 1:
             initialize(s);
             break;
         case 2:
-            inputData(s);
+            inputData(s, size);
             break;
+        /*
         case 3:
             printf("Enter the name of the file: ");
             char filename2[100];
@@ -85,6 +97,7 @@ void proccessChoice(int choice, MyStruct *s) {
         case 6:
             exit(0);
             break;
+        */
         default:
             printf("Invalid choice\n");
             break;
@@ -104,7 +117,7 @@ void menuPrint(int *choice){
 
 int main(){
 
-    int choice;
+    int choice, size = 0;
 
     printf("Hello, what would you like to do?\n");\
     menuPrint(&choice);
