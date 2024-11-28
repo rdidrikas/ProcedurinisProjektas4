@@ -2,13 +2,14 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 
 #define SIZE 256
 
 typedef struct {
     int *elements;
-} MyStruct;
+};
 
 void input_filename(char *fileName, char *prompt){
 
@@ -21,7 +22,7 @@ void input_filename(char *fileName, char *prompt){
 
 }
 
-void inputData(MyStruct *s, int *size){
+void input_data(MyStruct *s, int *size){
 
     char *fileNameInput = malloc(SIZE * sizeof(char));
     input_filename(fileNameInput, "input");
@@ -37,14 +38,14 @@ void inputData(MyStruct *s, int *size){
     if(inputFile == NULL){
         printf("File not found\n");
         free(fileNameInput);
-        input_data(s);
+        input_data(s, size);
     }
 
     while(!feof(inputFile)){
         int temp;
         if(fscanf(inputFile, "%d", &temp) != 1){
             printf("Invalid input\n");
-            return -1;
+            return;
         }
         *size++;
         s->elements = realloc(s->elements, *size * sizeof(int));
@@ -65,7 +66,7 @@ void proccessChoice(int choice, MyStruct *s, int *size){
             initialize(s);
             break;
         case 2:
-            inputData(s, size);
+            input_data(s, size);
             break;
         /*
         case 3:
@@ -115,14 +116,4 @@ void menuPrint(int *choice){
     printf("6. Exit\n");
     printf("Enter your choice: ");
     scanf("%d", choice);
-}
-
-int main(){
-
-    int choice, size = 0;
-
-    printf("Hello, what would you like to do?\n");\
-    menuPrint(&choice);
-
-    
 }
