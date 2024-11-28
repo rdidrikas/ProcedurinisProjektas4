@@ -1,3 +1,5 @@
+#include "mystruct.h"
+
 #include <stdlib.h>
 #include <stdio.h>
 
