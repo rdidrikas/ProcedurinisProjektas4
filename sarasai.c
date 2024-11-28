@@ -4,9 +4,9 @@
 #include <stdio.h>
 #include <string.h>
 
-
-
 #define SIZE 256
+
+MyStruct s;
 
 void input_filename(char *fileName, char *prompt){
 
@@ -52,71 +52,61 @@ void input_data(MyStruct *s){
         s->elements[s->size - 1] = temp;
     }
     fclose(inputFile); // Close the file after reading
+    free(fileNameInput);
 
 }
-
-void initialize(){
-    MyStruct *s;
+void print_struct(MyStruct s){
+    for(int i = 0; i < s.size; i++){
+        printf("%d ", s.elements[i]);
+    }
+    printf("\n");
+}
+void cleanup(MyStruct *s) {
+    free(s->elements);
     s->elements = NULL;
     s->size = 0;
-
+    printf("List deleted.\n");
 }
 
-void proccessChoice(int choice, MyStruct *s){
+MyStruct initialize(){
+    MyStruct s;
+    s.elements = NULL;
+    s.size = 0;
+    return s;
+}
+
+void proccess_choice(int choice){
     switch(choice){
         case 1:
-            if (s->elements == NULL) {
-                initialize(s);           
-                printf("List created\n");
-                printf("Next?\n");
-            } else {
-                printf("List already exists. Delete it first (option 5) to create a new one.\n");
-            }
-            menuPrint(s);
-            // break;
-        case 2:
-            input_data(s);
+            s = initialize();
+            menuPrint();
             break;
-        /*
+        case 2:
+            input_data(&s);
+            menuPrint();
+            break;
+        
         case 3:
-            printf("Enter the name of the file: ");
-            char filename2[100];
-            scanf("%s", filename2);
-            FILE *file2 = fopen(filename2, "w");
-            if(file2 == NULL){
-                printf("File not found\n");
-                return;
-            }
-            fprintf(file2, "%d\n", s->size);
-            for(int i = 0; i < s->size; i++){
-                fprintf(file2, "%d ", s->elements[i]);
-            }
-            fclose(file2);
+            print_struct(s);
             break;
         case 4:
-            int max = s->elements[0];
-            for(int i = 1; i < s->size; i++){
-                if(s->elements[i] > max){
-                    max = s->elements[i];
-                }
-            }
-            printf("The biggest element is: %d\n", max);
             break;
         case 5:
-            free(s->elements);
-            s->elements = NULL;
+            cleanup(&s);
+            menuPrint();
             break;
         case 6:
+            cleanup(&s);
+            printf("Goodbye!\n");
             exit(0);
             break;
-        */
         default:
             printf("Invalid choice\n");
             break;
     }
 }
 
-void menuPrint(MyStruct *s){
+void menuPrint(){
     int choice;
     printf("1. Create a list\n");
     printf("2. Read elements from a file\n");
@@ -126,5 +116,5 @@ void menuPrint(MyStruct *s){
     printf("6. Exit\n");
     printf("Enter your choice: ");
     scanf("%d", &choice);
-    proccessChoice(choice, s);
+    proccess_choice(choice);
 }

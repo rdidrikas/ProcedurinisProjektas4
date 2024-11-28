@@ -6,8 +6,7 @@
 
 int main(){
 
-    MyStruct s;
     printf("Hello, what would you like to do?\n");\
-    menuPrint(s);
+    menuPrint();
 
 }

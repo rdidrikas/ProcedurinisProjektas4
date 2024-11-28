@@ -7,9 +7,11 @@ typedef struct {
 } MyStruct;
 
 // Function prototypes
-void initialize(MyStruct *s);
-void inputData(MyStruct *s);
-void processChoice(MyStruct *s);
+MyStruct initialize();
+void input_data(MyStruct *s);
+void proccess_choice(int choice);
+void cleanup(MyStruct *s);
+void print_struct(MyStruct s);
 void menuPrint();
 
 #endif

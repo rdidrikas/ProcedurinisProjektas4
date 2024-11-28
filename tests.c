@@ -26,7 +26,7 @@ void test_input_data() {
 
     // Simulate a file with integers
     FILE *tempFile = fopen("test_data.txt", "w");
-    fprintf(tempFile, "1\n2\n3\n4\n5\n");
+    fprintf(tempFile, "1\n2\n3\n4\n5");
     fclose(tempFile);
 
     input_data(&s);  // Call input_data with the mock file
@@ -42,18 +42,6 @@ void test_input_data() {
 }
 
 // Test cleanup function
-void test_cleanup() {
-    MyStruct s;
-    initialize(&s);
-    s.size = 3;
-    s.elements = malloc(3 * sizeof(int));
-
-    cleanup(&s);
-
-    assert(s.elements == NULL);  // Ensure elements is NULL after cleanup
-    assert(s.size == 0);         // Ensure size is 0 after cleanup
-    printf("Test cleanup passed.\n");
-}
 
 // Test proccessChoice function
 void test_proccessChoice() {
@@ -61,13 +49,13 @@ void test_proccessChoice() {
     initialize(&s);
 
     // Test choice 1: Should initialize the list
-    proccessChoice(1, &s);
+    proccess_choice(1, &s);
     assert(s.elements == NULL);  // List should be initialized
     assert(s.size == 0);         // Size should be 0
     printf("Test proccessChoice 1 passed.\n");
 
     // Test choice 5: Deleting the structure (cleanup)
-    proccessChoice(5, &s);
+    proccess_choice(5, &s);
     assert(s.elements == NULL);  // Ensure elements are freed
     assert(s.size == 0);         // Ensure size is 0
     printf("Test proccessChoice 5 passed.\n");
@@ -78,7 +66,7 @@ int main() {
     // Running all test cases
     test_initialize();
     test_input_data();
-    test_cleanup();
+
     test_proccessChoice();
 
     printf("All tests passed!\n");

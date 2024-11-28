@@ -6,7 +6,7 @@ main: main.o sarasai.o
 	gcc $(CFLAGS) main.o sarasai.o -o main.exe
 
 tests: tests.o sarasai.o
-	gcc $(CFLAGS) test.o sarasai.o -o tests.exe
+	gcc $(CFLAGS) tests.o sarasai.o -o tests.exe
 
 tests.o: tests.c mystruct.h
 	gcc $(CFLAGS) -c tests.c
