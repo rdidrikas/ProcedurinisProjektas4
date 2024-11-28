@@ -7,10 +7,6 @@
 
 #define SIZE 256
 
-typedef struct {
-    int *elements;
-};
-
 void input_filename(char *fileName, char *prompt){
 
     printf("Enter %s's file name with the data (.txt format): ", prompt);
@@ -22,7 +18,7 @@ void input_filename(char *fileName, char *prompt){
 
 }
 
-void input_data(MyStruct *s, int *size){
+void input_data(MyStruct *s){
 
     char *fileNameInput = malloc(SIZE * sizeof(char));
     input_filename(fileNameInput, "input");
@@ -35,38 +31,50 @@ void input_data(MyStruct *s, int *size){
     }
 
     FILE *inputFile = fopen(fileNameInput, "r");
+
+    // File not found
     if(inputFile == NULL){
         printf("File not found\n");
         free(fileNameInput);
-        input_data(s, size);
+        input_data(s);
     }
 
-    while(!feof(inputFile)){
-        int temp;
-        if(fscanf(inputFile, "%d", &temp) != 1){
-            printf("Invalid input\n");
+    int temp;
+    while (fscanf(inputFile, "%d", &temp) == 1) {
+        s->size++;
+        s->elements = realloc(s->elements, s->size * sizeof(int));
+        if (s->elements == NULL) {
+            printf("Memory allocation failed\n");
+            fclose(inputFile);
             return;
         }
-        *size++;
-        s->elements = realloc(s->elements, *size * sizeof(int));
-        s->elements[*size - 1] = temp;
+        s->elements[s->size - 1] = temp;
     }
+    fclose(inputFile); // Close the file after reading
 
 }
 
-void initialize(MyStruct *s){
-
-    s->elements = malloc(0 * sizeof(int));
+void initialize(){
+    MyStruct *s;
+    s->elements = NULL;
+    s->size = 0;
 
 }
 
-void proccessChoice(int choice, MyStruct *s, int *size){
+void proccessChoice(int choice, MyStruct *s){
     switch(choice){
         case 1:
-            initialize(s);
-            break;
+            if (s->elements == NULL) {
+                initialize(s);           
+                printf("List created\n");
+                printf("Next?\n");
+            } else {
+                printf("List already exists. Delete it first (option 5) to create a new one.\n");
+            }
+            menuPrint(s);
+            // break;
         case 2:
-            input_data(s, size);
+            input_data(s);
             break;
         /*
         case 3:
@@ -107,7 +115,8 @@ void proccessChoice(int choice, MyStruct *s, int *size){
     }
 }
 
-void menuPrint(int *choice){
+void menuPrint(MyStruct *s){
+    int choice;
     printf("1. Create a list\n");
     printf("2. Read elements from a file\n");
     printf("3. Write elements to a file\n");
@@ -115,5 +124,6 @@ void menuPrint(int *choice){
     printf("5. Deletes the structure\n");
     printf("6. Exit\n");
     printf("Enter your choice: ");
-    scanf("%d", choice);
+    scanf("%d", &choice);
+    proccessChoice(choice, s);
 }

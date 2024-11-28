@@ -5,10 +5,8 @@
 
 int main(){
 
-    int choice, size = 0;
-
+    MyStruct s;
     printf("Hello, what would you like to do?\n");\
-    menuPrint(&choice);
+    menuPrint(s);
 
-    
 }

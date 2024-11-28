@@ -3,12 +3,13 @@
 
 typedef struct {
     int *elements;
+    int size;
 } MyStruct;
 
 // Function prototypes
 void initialize(MyStruct *s);
-void inputData(MyStruct *s, int *size);
-void processChoice(int choice, MyStruct *s, int *size);
-void menuPrint(int *choice);
+void inputData(MyStruct *s);
+void processChoice(MyStruct *s);
+void menuPrint();
 
 #endif
