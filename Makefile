@@ -18,4 +18,4 @@ sarasai.o: sarasai.c mystruct.h
 	gcc $(CFLAGS) -c sarasai.c
 
 clean:
-	rm -f *.o main test
+	rm -f *.o main.exe tests.exe

@@ -6,3 +6,4 @@
 - https://web.vu.lt/mif/k.lapin/files/2013/11/Prog_II.pdf
 
 ## Other
+- ChatGPT, GitHub Copilot

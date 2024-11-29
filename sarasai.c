@@ -61,10 +61,36 @@ void print_struct(MyStruct s){
     }
     printf("\n");
 }
+
+void write_to_file(MyStruct s){
+    char *fileNameOutput = malloc(SIZE * sizeof(char));
+    input_filename(fileNameOutput, "output");
+
+    FILE *outputFile = fopen(fileNameOutput, "w");
+    free(fileNameOutput);
+
+    if(outputFile == NULL){
+        printf("File could not be created\n");
+        write_to_file(s);
+    }
+    
+    for(int i = 0; i < s.size; i++){
+        fprintf(outputFile, "%d ", s.elements[i]);
+    }
+    fclose(outputFile);
+}
+
+void write_to_console(int elements[], int size){
+    if (size == 0) {
+        return;
+    }
+    
+    printf("%d ", elements[0]);
+   
+    write_to_console(elements + 1, size - 1);
+}
 void cleanup(MyStruct *s) {
     free(s->elements);
-    s->elements = NULL;
-    s->size = 0;
     printf("List deleted.\n");
 }
 
@@ -87,7 +113,23 @@ void proccess_choice(int choice){
             break;
         
         case 3:
-            print_struct(s);
+            printf("1. Write to file\n");
+            printf("2. Write to console\n");
+            printf("Enter your choice: ");
+            scanf("%d", &choice);
+            switch(choice){
+            case 1:
+                write_to_file(s);
+                break;
+            case 2:
+                write_to_console(s.elements, s.size);
+                printf("\n");
+                break;
+            default:
+                printf("Invalid choice\n");
+                break;
+            }
+            menuPrint();
             break;
         case 4:
             break;
