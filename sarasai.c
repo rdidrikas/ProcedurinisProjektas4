@@ -113,11 +113,11 @@ void proccess_choice(int choice){
     switch(choice){
         case 1:
             s = initialize();
-            menuPrint();
+            main();
             break;
         case 2:
             input_data(&s);
-            menuPrint();
+            main();
             break;
         
         case 3:
@@ -137,13 +137,13 @@ void proccess_choice(int choice){
                 printf("Invalid choice\n");
                 break;
             }
-            menuPrint();
+            main();
             break;
         case 4:
             break;
         case 5:
             cleanup(&s);
-            menuPrint();
+            main();
             break;
         case 6:
             cleanup(&s);
@@ -154,17 +154,4 @@ void proccess_choice(int choice){
             printf("Invalid choice\n");
             break;
     }
-}
-
-void menuPrint(){
-    int choice;
-    printf("1. Create a list\n");
-    printf("2. Read elements from a file\n");
-    printf("3. Write elements to a file\n");
-    printf("4. Prints the biggest element in the structure\n");
-    printf("5. Deletes the structure\n");
-    printf("6. Exit\n");
-    printf("Enter your choice: ");
-    scanf("%d", &choice);
-    proccess_choice(choice);
 }
