@@ -73,11 +73,19 @@ void write_to_file(MyStruct s){
         printf("File could not be created\n");
         write_to_file(s);
     }
-    
-    for(int i = 0; i < s.size; i++){
-        fprintf(outputFile, "%d ", s.elements[i]);
-    }
+
+    write(s.elements, s.size, outputFile);
     fclose(outputFile);
+}
+
+void write(int elements[], int size, FILE *outputFile){
+    if (size == 0) {
+        return;
+    }
+    
+    fprintf(outputFile, "%d ", elements[0]);
+    
+    write(elements + 1, size - 1, outputFile);
 }
 
 void write_to_console(int elements[], int size){
