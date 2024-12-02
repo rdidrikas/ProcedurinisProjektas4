@@ -135,3 +135,46 @@ int sum(int a, int b){
 
 }
 ```
+- Loops, if statements, etc. use no empty lines before or after `{}`
+```c
+// Correct
+if(someCondition){
+    // some code...
+    // some code...
+    // some code...
+}
+// Correct
+for(...){
+    // some code...
+    // some code...
+    // some code...
+}
+// Incorrect
+if(someCondition){
+
+    // some code...
+    // some code...
+    // some code...
+
+}
+// Incorrect
+for(...){
+
+    // some code...
+    // some code...
+    // some code...
+
+}
+```
+- Pointer asterisk `*` should be next to the variable, function name - no spaces in between
+```c
+// Correct
+int *a;
+int *sum()
+
+// Incorret
+int * a;
+char* a[];
+int * sum()
+int* div()
+```
