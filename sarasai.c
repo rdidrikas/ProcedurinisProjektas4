@@ -149,6 +149,29 @@ MyStruct initialize(){
 
 }
 
+int input(int *choice, int lower, int upper){
+
+    char buffer;
+    if(scanf("%d", choice) == 1){
+        if(scanf("%c", &buffer) != 0 && buffer != '\n'){
+            printf("Invalid input... Try again.\n");
+            while(getchar() != '\n');
+            return -1;
+        }
+        if(*choice < lower || *choice > upper){
+            printf("Invalid input... Try again.\n");
+            return -1;
+        }
+    }
+    else{
+        printf("Invalid input... Try again.\n");
+        while(getchar() != '\n');
+        return -1;
+    }
+    return 0;
+
+}
+
 void proccess_choice(int choice){
 
     switch(choice){
@@ -165,7 +188,8 @@ void proccess_choice(int choice){
             printf("1. Write to file\n");
             printf("2. Write to console\n");
             printf("Enter your choice: ");
-            scanf("%d", &choice);
+            if(input(&choice, 1, 2) == -1) main();
+
             switch(choice){
             case 1:
                 write_to_file(s);

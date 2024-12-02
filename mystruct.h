@@ -9,6 +9,7 @@ typedef struct {
 
 // Function prototypes
 int main();
+int input(int *choice, int lower, int upper);
 MyStruct initialize();
 void input_data(MyStruct *s);
 void proccess_choice(int choice);
