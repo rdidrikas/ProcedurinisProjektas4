@@ -6,6 +6,8 @@
 
 #define SIZE 256
 
+MyStruct s;
+
 void input_filename(char *fileName, char *prompt){
 
     printf("Enter %s's file name with the data (.txt format): ", prompt);
@@ -52,19 +54,12 @@ void input_data(MyStruct *s){
     fclose(inputFile); // Close the file after reading
     free(fileNameInput);
     list_created = true;
-
-}
-void print_struct(MyStruct s){
-
-    for(int i = 0; i < s.size; i++){
-        printf("%d ", s.elements[i]);
-    }
-    printf("\n");
+    printf("Data read from file succesfully\n");
 
 }
 
 void write_to_file(MyStruct s){
-    
+
     char *fileNameOutput = malloc(SIZE * sizeof(char));
     input_filename(fileNameOutput, "output");
 
@@ -78,13 +73,14 @@ void write_to_file(MyStruct s){
 
     write(s.elements, s.size, outputFile);
     fclose(outputFile);
+    printf("Data written to file succesfully\n");
 
 }
 
 void remove_biggest_element(MyStruct *s){
 
     if(s->size == 0){
-        printf("List is empty\n");
+        printf("Structure is empty\n");
         return;
     }
 
@@ -139,7 +135,7 @@ void cleanup(MyStruct *s) {
     free(s->elements);
     list_created = false;
     list_initialized = false;
-    printf("List deleted.\n");
+    printf("Structure deleted.\n");
 }
 
 MyStruct initialize(){
@@ -148,6 +144,7 @@ MyStruct initialize(){
     s.elements = NULL;
     s.size = 0;
     list_initialized = true;
+    printf("Structure created!\n");
     return s;
 
 }
@@ -179,13 +176,17 @@ void proccess_choice(int choice){
 
     switch(choice){
         case 1:
-            MyStruct s = initialize();
+            s = initialize();
             break;
         case 2:
             input_data(&s);
             break;
         
         case 3:
+            if(s.size == 0){
+                printf("Structure is empty\n");
+                break;
+            }
             printf("1. Write to file\n");
             printf("2. Write to console\n");
             printf("Enter your choice: ");
@@ -210,7 +211,7 @@ void proccess_choice(int choice){
             cleanup(&s);
             break;
         case 6:
-            cleanup(&s);
+            if(list_initialized) cleanup(&s);
             printf("Goodbye!\n");
             exit(0);
             break;
