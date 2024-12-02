@@ -56,13 +56,16 @@ void input_data(MyStruct *s){
 
 }
 void print_struct(MyStruct s){
+
     for(int i = 0; i < s.size; i++){
         printf("%d ", s.elements[i]);
     }
     printf("\n");
+
 }
 
 void write_to_file(MyStruct s){
+    
     char *fileNameOutput = malloc(SIZE * sizeof(char));
     input_filename(fileNameOutput, "output");
 
@@ -76,6 +79,7 @@ void write_to_file(MyStruct s){
 
     write(s.elements, s.size, outputFile);
     fclose(outputFile);
+
 }
 
 void remove_biggest_element(MyStruct *s){
@@ -107,6 +111,7 @@ void remove_biggest_element(MyStruct *s){
         return;
     }
     printf("Biggest element removed\n");
+
 }
 
 
