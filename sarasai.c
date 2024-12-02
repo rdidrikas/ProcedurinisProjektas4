@@ -1,5 +1,4 @@
 #include "mystruct.h"
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -116,23 +115,25 @@ void remove_biggest_element(MyStruct *s){
 
 
 void write(int elements[], int size, FILE *outputFile){
+
     if (size == 0) {
         return;
     }
     
     fprintf(outputFile, "%d ", elements[0]);
-    
     write(elements + 1, size - 1, outputFile);
+
 }
 
 void write_to_console(int elements[], int size){
+
     if (size == 0) {
         return;
     }
     
     printf("%d ", elements[0]);
-   
     write_to_console(elements + 1, size - 1);
+
 }
 void cleanup(MyStruct *s) {
     free(s->elements);
@@ -140,13 +141,16 @@ void cleanup(MyStruct *s) {
 }
 
 MyStruct initialize(){
+
     MyStruct s;
     s.elements = NULL;
     s.size = 0;
     return s;
+
 }
 
 void proccess_choice(int choice){
+
     switch(choice){
         case 1:
             s = initialize();
@@ -193,4 +197,5 @@ void proccess_choice(int choice){
             printf("Invalid choice\n");
             break;
     }
+
 }

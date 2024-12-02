@@ -178,3 +178,22 @@ char* a[];
 int * sum()
 int* div()
 ```
+- Use a single new line between different functions
+```c
+// Correct
+int sum(int a, int b){
+
+}
+
+void read(int size){
+
+}
+
+// Incorrect
+int sum(int a, int b){
+
+}
+void read(int size){
+    
+}
+```
