@@ -3,72 +3,64 @@
 #include <stdio.h>
 #include "mystruct.h"
 
-// Test initialize function
-void test_initialize() {
-    MyStruct s;
-    initialize(&s);
-    assert(s.elements == NULL);  // Check if elements is NULL
-    assert(s.size == 0);         // Check if size is 0
+
+void test_initialize(){
+
+    MyStruct s = initialize();
+    assert(s.elements == NULL); 
+    assert(s.size == 0);         
     printf("Test initialize passed.\n");
+
 }
 
-// Test input_filename function (requires user input handling)
-void test_input_filename() {
-    // This test would need to mock user input or check for specific behaviors.
-    // We can skip this for simplicity since it involves user input redirection.
-    printf("Test input_filename skipped (requires user input mocking).\n");
-}
+void test_input_data(){
 
-// Test input_data function with mock file input
-void test_input_data() {
-    MyStruct s;
-    initialize(&s);
+    MyStruct s = initialize();
 
-    // Simulate a file with integers
     FILE *tempFile = fopen("test_data.txt", "w");
     fprintf(tempFile, "1\n2\n3\n4\n5");
     fclose(tempFile);
 
-    input_data(&s);  // Call input_data with the mock file
+    input_data(&s); // Input file name "test_data.txt"
 
-    assert(s.size == 5);  // Check if the size was updated correctly
-    assert(s.elements != NULL);  // Ensure that the elements array is not NULL
-    assert(s.elements[0] == 1);  // Check if the first element is 1
-    assert(s.elements[4] == 5);  // Check if the last element is 5
+    assert(s.size == 5);
+    assert(s.elements != NULL);
+    assert(s.elements[0] == 1);
+    assert(s.elements[4] == 5);
 
-    // Cleanup
     free(s.elements);
     printf("Test input_data passed.\n");
+
 }
 
-// Test cleanup function
+void test_remove_biggest_element(){
 
-// Test proccessChoice function
-void test_proccessChoice() {
-    MyStruct s;
-    initialize(&s);
+    MyStruct s = initialize();
+    
+    FILE *tempFile = fopen("test_data.txt", "w");
+    fprintf(tempFile, "20\n2\n3\n4\n10");
+    fclose(tempFile);
 
-    // Test choice 1: Should initialize the list
-    proccess_choice(1);
-    assert(s.elements == NULL);  // List should be initialized
-    assert(s.size == 0);         // Size should be 0
-    printf("Test proccessChoice 1 passed.\n");
+    input_data(&s); // Input file name "test_data.txt"
+    remove_biggest_element(&s);
 
-    // Test choice 5: Deleting the structure (cleanup)
-    proccess_choice(5);
-    assert(s.elements == NULL);  // Ensure elements are freed
-    assert(s.size == 0);         // Ensure size is 0
-    printf("Test proccessChoice 5 passed.\n");
+    assert(s.size == 4);
+    assert(s.elements != NULL);
+    assert(s.elements[0] == 2);
+    assert(s.elements[1] == 3);
+
+    free(s.elements);
+    printf("Test test_remove_biggest_element passed.\n");
+
 }
 
-// Main function to run all tests
-int main() {
-    // Running all test cases
+int main(){
+    
     test_initialize();
     test_input_data();
-
-    test_proccessChoice();
+    test_remove_biggest_element();
 
     printf("All tests passed!\n");
     return 0;
+
 }
