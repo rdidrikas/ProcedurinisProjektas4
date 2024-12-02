@@ -17,6 +17,7 @@ void print_struct(MyStruct s);
 void write_to_file(MyStruct s);
 void write_to_console(int elements[], int size);
 void write(int elements[], int size, FILE *outputFile);
+void remove_biggest_element(MyStruct *s);
 // void menuPrint();
 
 #endif

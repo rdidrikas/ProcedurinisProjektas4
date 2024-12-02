@@ -49,13 +49,13 @@ void test_proccessChoice() {
     initialize(&s);
 
     // Test choice 1: Should initialize the list
-    proccess_choice(1, &s);
+    proccess_choice(1);
     assert(s.elements == NULL);  // List should be initialized
     assert(s.size == 0);         // Size should be 0
     printf("Test proccessChoice 1 passed.\n");
 
     // Test choice 5: Deleting the structure (cleanup)
-    proccess_choice(5, &s);
+    proccess_choice(5);
     assert(s.elements == NULL);  // Ensure elements are freed
     assert(s.size == 0);         // Ensure size is 0
     printf("Test proccessChoice 5 passed.\n");

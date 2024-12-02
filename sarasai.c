@@ -78,6 +78,38 @@ void write_to_file(MyStruct s){
     fclose(outputFile);
 }
 
+void remove_biggest_element(MyStruct *s){
+
+    if(s->size == 0){
+        printf("List is empty\n");
+        return;
+    }
+
+    int biggest = s->elements[0];
+    int index = 0;
+
+    for(int i = 1; i < s->size; i++){
+        if(s->elements[i] > biggest){
+            biggest = s->elements[i];
+            index = i;
+        }
+    }
+
+    for(int i = index; i < s->size - 1; i++){
+        s->elements[i] = s->elements[i + 1];
+    }
+
+    s->size--;
+    s->elements = realloc(s->elements, s->size * sizeof(int));
+
+    if (s->elements == NULL) {
+        printf("Memory allocation failed\n");
+        return;
+    }
+    printf("Biggest element removed\n");
+}
+
+
 void write(int elements[], int size, FILE *outputFile){
     if (size == 0) {
         return;
@@ -140,6 +172,8 @@ void proccess_choice(int choice){
             main();
             break;
         case 4:
+            remove_biggest_element(&s);
+            main();
             break;
         case 5:
             cleanup(&s);
