@@ -1,6 +1,10 @@
 #ifndef MYSTRUCT_H
 #define MYSTRUCT_H
 #include <stdio.h>
+#include <stdbool.h>
+
+extern bool list_initialized;
+extern bool list_created;
 
 typedef struct {
     int *elements;

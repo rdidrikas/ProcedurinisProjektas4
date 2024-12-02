@@ -2,10 +2,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdbool.h>
 
 #define SIZE 256
-
-MyStruct s;
 
 void input_filename(char *fileName, char *prompt){
 
@@ -52,6 +51,7 @@ void input_data(MyStruct *s){
     }
     fclose(inputFile); // Close the file after reading
     free(fileNameInput);
+    list_created = true;
 
 }
 void print_struct(MyStruct s){
@@ -137,6 +137,8 @@ void write_to_console(int elements[], int size){
 }
 void cleanup(MyStruct *s) {
     free(s->elements);
+    list_created = false;
+    list_initialized = false;
     printf("List deleted.\n");
 }
 
@@ -145,6 +147,7 @@ MyStruct initialize(){
     MyStruct s;
     s.elements = NULL;
     s.size = 0;
+    list_initialized = true;
     return s;
 
 }
@@ -176,20 +179,17 @@ void proccess_choice(int choice){
 
     switch(choice){
         case 1:
-            s = initialize();
-            main();
+            MyStruct s = initialize();
             break;
         case 2:
             input_data(&s);
-            main();
             break;
         
         case 3:
             printf("1. Write to file\n");
             printf("2. Write to console\n");
             printf("Enter your choice: ");
-            if(input(&choice, 1, 2) == -1) main();
-
+            if(input(&choice, 1, 2) != 0) break;
             switch(choice){
             case 1:
                 write_to_file(s);
@@ -202,15 +202,12 @@ void proccess_choice(int choice){
                 printf("Invalid choice\n");
                 break;
             }
-            main();
             break;
         case 4:
             remove_biggest_element(&s);
-            main();
             break;
         case 5:
             cleanup(&s);
-            main();
             break;
         case 6:
             cleanup(&s);
