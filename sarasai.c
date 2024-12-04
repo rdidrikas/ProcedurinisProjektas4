@@ -25,7 +25,7 @@ void input_data(MyStruct *s){
     input_filename(fileNameInput, "input");
     
     // Error mem allocation
-    if (!fileNameInput){
+    if(!fileNameInput){
         printf("Memory allocation failed...");
         free(fileNameInput);
         return;
@@ -33,7 +33,6 @@ void input_data(MyStruct *s){
 
     FILE *inputFile = fopen(fileNameInput, "r");
 
-    // File not found
     if(inputFile == NULL){
         printf("File not found\n");
         free(fileNameInput);
@@ -41,24 +40,37 @@ void input_data(MyStruct *s){
     }
 
     int temp;
-    while (fscanf(inputFile, "%d", &temp) == 1){
-        s->size++;
-        s->elements = realloc(s->elements, s->size * sizeof(int));
-        if (s->elements == NULL) {
+    while(fscanf(inputFile, "%d", &temp) == 1){
+        Node *newNode = malloc(sizeof(Node));
+        if(newNode == NULL){
             printf("Memory allocation failed\n");
             fclose(inputFile);
             return;
         }
-        s->elements[s->size - 1] = temp;
+        newNode->element = temp;
+        newNode->next = NULL;
+        
+        if(s->head == NULL){
+            s->head = newNode; // Pirmas elementas
+        } 
+        else{
+            Node *current = s->head;
+            while(current->next != NULL){
+                current = current->next; // Iki galo
+            }
+            current->next = newNode; // Pridedam elementa i gala
+        }
+        s->size++;
     }
-    fclose(inputFile); // Close the file after reading
+
+    fclose(inputFile);
     free(fileNameInput);
     list_created = true;
     printf("Data read from file succesfully\n");
 
 }
 
-void write_to_file(MyStruct s){
+void write_to_file(Node *node){
 
     char *fileNameOutput = malloc(SIZE * sizeof(char));
     input_filename(fileNameOutput, "output");
@@ -68,10 +80,10 @@ void write_to_file(MyStruct s){
 
     if(outputFile == NULL){
         printf("File could not be created\n");
-        write_to_file(s);
+        write_to_file(node);
     }
 
-    write(s.elements, s.size, outputFile);
+    write(node, outputFile);
     fclose(outputFile);
     printf("Data written to file succesfully\n");
 
@@ -84,64 +96,75 @@ void remove_biggest_element(MyStruct *s){
         return;
     }
 
-    int biggest = s->elements[0];
-    int index = 0;
+    Node* current = s->head;
+    Node* previous = NULL;
+    Node* biggest = s->head;
+    Node* previousBiggest = NULL;
 
-    for(int i = 1; i < s->size; i++){
-        if(s->elements[i] > biggest){
-            biggest = s->elements[i];
-            index = i;
+    while(current){
+        if(current->element > biggest->element){
+            biggest = current;
+            previousBiggest = previous;
         }
+        previous = current;
+        current = current->next;
+    }
+    if(previousBiggest){
+        previousBiggest->next = biggest->next;
+    }
+    else{
+        s->head = biggest->next;
     }
 
-    for(int i = index; i < s->size - 1; i++){
-        s->elements[i] = s->elements[i + 1];
-    }
-
+    free(biggest);
     s->size--;
-    s->elements = realloc(s->elements, s->size * sizeof(int));
 
-    if (s->elements == NULL){
-        printf("Memory allocation failed\n");
-        return;
-    }
     printf("Biggest element removed\n");
 
 }
 
 
-void write(int elements[], int size, FILE *outputFile){
-
-    if (size == 0) {
+void write(Node *node, FILE *outputFile){
+    
+    if(!node){
         return;
     }
     
-    fprintf(outputFile, "%d ", elements[0]);
-    write(elements + 1, size - 1, outputFile);
+    fprintf(outputFile, "%d ", node->element);
+    write(node->next, outputFile);
 
 }
 
-void write_to_console(int elements[], int size){
+void write_to_console(Node *node){
 
-    if (size == 0){
+    if(!node){
         return;
     }
     
-    printf("%d ", elements[0]);
-    write_to_console(elements + 1, size - 1);
+    printf("%d ", node->element);
+    write_to_console(node->next);
 
 }
 void cleanup(MyStruct *s){
-    free(s->elements);
+
+    Node* current = s->head;
+    while(current){
+        Node* temp = current;
+        current = current->next;
+        free(temp);
+    }
+    s->head = NULL;
+    s->size = 0;
     list_created = false;
     list_initialized = false;
     printf("Structure deleted.\n");
+
 }
 
 MyStruct initialize(){
 
     MyStruct s;
-    s.elements = NULL;
+    s.head = NULL;
     s.size = 0;
     list_initialized = true;
     printf("Structure created!\n");
@@ -193,10 +216,10 @@ void proccess_choice(int choice){
             if(input(&choice, 1, 2) != 0) break;
             switch(choice){
             case 1:
-                write_to_file(s);
+                write_to_file(s.head);
                 break;
             case 2:
-                write_to_console(s.elements, s.size);
+                write_to_console(s.head);
                 printf("\n");
                 break;
             default:
