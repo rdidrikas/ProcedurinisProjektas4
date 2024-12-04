@@ -41,7 +41,7 @@ void input_data(MyStruct *s){
     }
 
     int temp;
-    while (fscanf(inputFile, "%d", &temp) == 1) {
+    while (fscanf(inputFile, "%d", &temp) == 1){
         s->size++;
         s->elements = realloc(s->elements, s->size * sizeof(int));
         if (s->elements == NULL) {
@@ -101,7 +101,7 @@ void remove_biggest_element(MyStruct *s){
     s->size--;
     s->elements = realloc(s->elements, s->size * sizeof(int));
 
-    if (s->elements == NULL) {
+    if (s->elements == NULL){
         printf("Memory allocation failed\n");
         return;
     }
@@ -123,7 +123,7 @@ void write(int elements[], int size, FILE *outputFile){
 
 void write_to_console(int elements[], int size){
 
-    if (size == 0) {
+    if (size == 0){
         return;
     }
     
@@ -131,7 +131,7 @@ void write_to_console(int elements[], int size){
     write_to_console(elements + 1, size - 1);
 
 }
-void cleanup(MyStruct *s) {
+void cleanup(MyStruct *s){
     free(s->elements);
     list_created = false;
     list_initialized = false;

@@ -6,7 +6,7 @@
 extern bool list_initialized;
 extern bool list_created;
 
-typedef struct {
+typedef struct{
     int *elements;
     int size;
 } MyStruct;
